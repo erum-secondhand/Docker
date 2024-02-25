@@ -1,0 +1,6 @@
+[submodule "Backend"]
+	path = Backend
+	url = https://github.com/erum-secondhand/Backend.git
+[submodule "Frontend"]
+	path = Frontend
+	url = https://github.com/erum-secondhand/Frontend.git
