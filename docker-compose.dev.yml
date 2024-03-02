@@ -18,7 +18,7 @@ services:
     env_file:
       - ./Backend/.env
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - erum
 
