@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5173:5173"
+    networks:
+      - erum
+
+  database:
+    container_name: database
+    image: mysql:8.0
+    env_file:
+      - ./Backend/.env
+    ports:
+      - "3306:3306"
+    networks:
+      - erum
+
+  backend:
+    container_name: backend
+    env_file:
+      - ./Backend/.env
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/Backend
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    depends_on:
+      - database
+    tty: true
+    networks:
+      - erum
+
+networks:
+  erum:
+    driver: bridge
