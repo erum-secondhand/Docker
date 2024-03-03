@@ -7,7 +7,7 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile
     volumes:
-      - ./frontend:/frontend
+      - ./Frontend:/Frontend
       - build_folder:/frontend/dist
       - /frontend/node_modules
     restart: always
@@ -68,4 +68,4 @@ networks:
     driver: bridge
 
 volumes:
-  build_folder: null
+  build_folder: {}
