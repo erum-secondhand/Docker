@@ -61,40 +61,6 @@ services:
     networks:
       - erum
 
-  backend3:
-    container_name: backend1
-    env_file:
-      - ./Backend/.env
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./Backend:/backend
-    expose:
-      - 8080
-    depends_on:
-      - database
-    tty: true
-    networks:
-      - erum
-
-  backend4:
-    container_name: backend2
-    env_file:
-      - ./Backend/.env
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./Backend:/backend
-    expose:
-      - 8080
-    depends_on:
-      - database
-    tty: true
-    networks:
-      - erum
-
   nginx:
     container_name: nginx
     restart: unless-stopped
@@ -114,8 +80,6 @@ services:
       - frontend
       - backend1
       - backend2
-      - backend3
-      - backend4
     networks:
       - erum
 
