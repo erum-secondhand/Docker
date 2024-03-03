@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./Frontend:/Frontend
-      - build_folder:/frontend/dist
+      - build_folder:/Frontend/dist
       - /frontend/node_modules
     restart: always
     ports:
