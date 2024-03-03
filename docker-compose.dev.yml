@@ -4,15 +4,15 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./Frontend
+      context: ./frontend
       dockerfile: Dockerfile
-    volumes:
-      - ./Frontend:/Frontend
-      - build_folder:/Frontend/dist
-      - /Frontend/node_modules
-    restart: always
     ports:
       - "5173:5173"
+    volumes:
+      - ./frontend:/frontend
+      - build_folder:/frontend/dist
+      - /frontend/node_modules
+    restart: always
     networks:
       - erum
 
@@ -20,7 +20,7 @@ services:
     container_name: database
     image: mysql:8.0
     env_file:
-      - ./Backend/.env
+      - ./backend/.env
     ports:
       - "3307:3306"
     networks:
@@ -29,12 +29,12 @@ services:
   backend:
     container_name: backend
     env_file:
-      - ./Backend/.env
+      - ./backend/.env
     build:
-      context: ./Backend
+      context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./Backend:/Backend
+      - ./backend:/backend
     ports:
       - "8080:8080"
     expose:
