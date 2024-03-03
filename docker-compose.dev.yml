@@ -27,8 +27,8 @@ services:
     networks:
       - erum
 
-  backend:
-    container_name: backend
+  backend1:
+    container_name: backend1
     env_file:
       - ./Backend/.env
     build:
@@ -36,8 +36,57 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./Backend:/backend
-    ports:
-      - "8080:8080"
+    expose:
+      - 8080
+    depends_on:
+      - database
+    tty: true
+    networks:
+      - erum
+
+  backend2:
+    container_name: backend2
+    env_file:
+      - ./Backend/.env
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/backend
+    expose:
+      - 8080
+    depends_on:
+      - database
+    tty: true
+    networks:
+      - erum
+
+  backend3:
+    container_name: backend1
+    env_file:
+      - ./Backend/.env
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/backend
+    expose:
+      - 8080
+    depends_on:
+      - database
+    tty: true
+    networks:
+      - erum
+
+  backend4:
+    container_name: backend2
+    env_file:
+      - ./Backend/.env
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/backend
     expose:
       - 8080
     depends_on:
@@ -63,7 +112,10 @@ services:
       - ./Frontend/dist:/var/www/frontend
     depends_on:
       - frontend
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     networks:
       - erum
 
