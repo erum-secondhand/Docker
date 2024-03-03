@@ -97,6 +97,7 @@ services:
       - frontend
       - backend1
       - backend2
+      - backend3
     networks:
       - erum
 
