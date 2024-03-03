@@ -9,7 +9,7 @@ services:
     volumes:
       - ./Frontend:/Frontend
       - build_folder:/Frontend/dist
-      - /frontend/node_modules
+      - /Frontend/node_modules
     restart: always
     ports:
       - "5173:5173"
