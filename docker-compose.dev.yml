@@ -62,7 +62,7 @@ services:
       - erum
 
   backend3:
-    container_name: backend2
+    container_name: backend3
     env_file:
       - ./Backend/.env
     build:
