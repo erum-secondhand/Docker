@@ -12,6 +12,8 @@ services:
       - ./frontend:/frontend
       - build_folder:/frontend/dist
       - /frontend/node_modules
+    tty: true
+    stdin_open: true
     restart: always
     networks:
       - erum
@@ -47,7 +49,9 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:latest
+    restart: unless-stopped
+    build:
+      context: ./nginx
     ports:
       - "80:80"
       - "443:443"
@@ -56,6 +60,7 @@ services:
       - 443
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./nginx/log:/var/log/nginx
       - build_folder:/var/www/frontend
     depends_on:
       - frontend
