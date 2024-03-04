@@ -23,12 +23,12 @@ services:
     env_file:
       - ./Backend/.env
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - erum
 
-  backend1:
-    container_name: backend1
+  backend:
+    container_name: backend
     env_file:
       - ./Backend/.env
     build:
@@ -38,40 +38,6 @@ services:
       - ./Backend:/backend
     ports:
       - "8080:8080"
-    depends_on:
-      - database
-    tty: true
-    networks:
-      - erum
-
-  backend2:
-    container_name: backend2
-    env_file:
-      - ./Backend/.env
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./Backend:/backend
-    ports:
-      - "8081:8080"
-    depends_on:
-      - database
-    tty: true
-    networks:
-      - erum
-
-  backend3:
-    container_name: backend3
-    env_file:
-      - ./Backend/.env
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./Backend:/backend
-    ports:
-      - "8082:8080"
     depends_on:
       - database
     tty: true
@@ -92,12 +58,9 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       - ./nginx/log:/var/log/nginx
-      - ./Frontend/dist:/var/www/frontend
     depends_on:
       - frontend
-      - backend1
-      - backend2
-      - backend3
+      - backend
     networks:
       - erum
 
