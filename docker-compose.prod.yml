@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/frontend
+    tty: true
+    stdin_open: true
+    restart: always
+    command: ["npm", "run", "dev"]
+    networks:
+      - erum
+
+  database:
+    container_name: database
+    image: mysql:8.0
+    env_file:
+      - ./Backend/.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - erum
+
+  backend:
+    container_name: backend
+    env_file:
+      - ./Backend/.env
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    tty: true
+    networks:
+      - erum
+
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - 80
+      - 443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./nginx/log:/var/log/nginx
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - erum
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - erum
+
+networks:
+  erum:
+    driver: bridge
+
+volumes:
+  db_data:
