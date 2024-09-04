@@ -37,7 +37,8 @@ services:
       context: ./Backend
       dockerfile: Dockerfile
     volumes:
-      - ./Backend:/backend
+      - ./Backend:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "8080:8080"
     depends_on:
@@ -45,6 +46,7 @@ services:
     tty: true
     networks:
       - erum
+    command: ["/usr/wait-for-it.sh", "database:3306", "--", "npm", "start"]
 
   nginx:
     container_name: nginx
