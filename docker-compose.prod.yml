@@ -10,10 +10,10 @@ services:
       - "5173:5173"
     volumes:
       - ./Frontend:/frontend
+      - build_folder:/app/dist
     tty: true
     stdin_open: true
     restart: always
-    command: ["npm", "run", "dev"]
     networks:
       - erum
 
@@ -58,6 +58,7 @@ services:
       - 80
       - 443
     volumes:
+      - build_folder:/var/www/frontend
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       - ./nginx/log:/var/log/nginx
       - ./certbot/conf:/etc/letsencrypt
@@ -82,4 +83,5 @@ networks:
     driver: bridge
 
 volumes:
+  build_folder:
   db_data:

@@ -4,3 +4,7 @@ logs
 
 # OS
 .DS_Store
+
+certbot
+
+.env.*
